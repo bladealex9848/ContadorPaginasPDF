@@ -95,34 +95,21 @@ def get_binary_file_downloader_html(bin_file: str, file_label: str = 'File') -> 
     href = f'<a href="data:application/octet-stream;base64,{bin_str}" download="{os.path.basename(bin_file)}">Descargar {file_label}</a>'
     return href
 
-# Configuración de la página de Streamlit
-st.set_page_config(page_title="Contador de Páginas PDF", layout="wide")
-
-# Estilos CSS personalizados
-st.markdown("""
-<style>
-    .stApp {
-        background-color: #f0f2f6;
-    }
-    .main {
-        background-color: #ffffff;
-        padding: 2rem;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .stButton>button {
-        background-color: #4CAF50;
-        color: white;
-        border-radius: 5px;
-    }
-    .stTextInput>div>div>input {
-        border-radius: 5px;
-    }
-</style>
-""", unsafe_allow_html=True)
+# Configuración de la página
+st.set_page_config(
+    page_title="Contador de Páginas PDF",
+    page_icon="📄",
+    layout="wide"
+)
 
 # Título y descripción
 st.title("📄 Contador de Páginas PDF Multimétodo")
+
+st.write("""
+        [![ver código fuente](https://img.shields.io/badge/Repositorio%20GitHub-gris?logo=github)](https://github.com/bladealex9848/ContadorPaginasPDF)
+        ![Visitantes](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fcontadorpaginaspdf.streamlit.app&label=Visitantes&labelColor=%235d5d5d&countColor=%231e7ebf&style=flat)
+        """)
+
 st.markdown("""
 Esta aplicación te permite contar el número de páginas en archivos PDF, incluso si están protegidos o firmados electrónicamente.
 Simplemente sube tus archivos y obtén el conteo de páginas de forma rápida y sencilla.

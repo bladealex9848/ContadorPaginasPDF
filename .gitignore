@@ -1,0 +1,66 @@
+# Entornos virtuales
+venv/
+env/
+.venv/
+.env/
+
+# Archivos de Python compilados
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribución / empaquetado
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Archivos de PyInstaller
+*.manifest
+*.spec
+
+# Archivos de pytest
+.pytest_cache/
+
+# Archivos de cobertura
+htmlcov/
+.coverage
+.coverage.*
+.cache
+
+# Archivos de Streamlit
+.streamlit/
+
+# Archivos temporales
+*.tmp
+*.bak
+*.swp
+*~
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.sublime-workspace
+
+# Archivos de log
+*.log
+
+# Archivos de base de datos
+*.db
+*.sqlite3
+
+# Archivos de ambiente
+.env
+
+# Archivos PDF (opcional, descomenta si no quieres incluir PDFs en el repositorio)
+# *.pdf
+
+# Archivos generados por la aplicación
+informe_conteo_paginas.txt
+
+# Otros archivos y carpetas específicos del proyecto
+# Agrega aquí cualquier otro archivo o carpeta específica de tu proyecto que no deba ser rastreada por Git

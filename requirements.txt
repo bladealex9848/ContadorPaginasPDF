@@ -1,0 +1,15 @@
+# Dependencias principales
+PyPDF2==3.0.1
+pikepdf==8.7.1
+pdfminer.six==20231228
+pycryptodome==3.11.0
+streamlit==1.29.0
+
+# Dependencias opcionales (descomenta si las necesitas)
+# pdftk-python==0.3  # Si decides usar pdftk y está disponible como paquete de Python
+
+# Dependencias de desarrollo (descomenta si las usas)
+# pytest==7.4.3
+# black==23.12.1
+# flake8==6.1.0
+# mypy==1.7.1

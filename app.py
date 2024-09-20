@@ -1,9 +1,9 @@
 import streamlit as st
-import os
 import tempfile
-import base64
 import logging
 from typing import List, Tuple
+from datetime import datetime
+import io
 
 # Configuración de logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -87,14 +87,6 @@ def get_pdf_pages_pdfminer(file_path: str, password: str = None) -> int:
         document = PDFDocument(parser, password=password or '')
         return len([0 for _ in document.get_pages()])
 
-# Función para crear un botón de descarga
-def get_binary_file_downloader_html(bin_file: str, file_label: str = 'File') -> str:
-    with open(bin_file, 'rb') as f:
-        data = f.read()
-    bin_str = base64.b64encode(data).decode()
-    href = f'<a href="data:application/octet-stream;base64,{bin_str}" download="{os.path.basename(bin_file)}">Descargar {file_label}</a>'
-    return href
-
 # Configuración de la página
 st.set_page_config(
     page_title="Contador de Páginas PDF",
@@ -106,9 +98,9 @@ st.set_page_config(
 st.title("📄 Contador de Páginas PDF Multimétodo")
 
 st.write("""
-        [![ver código fuente](https://img.shields.io/badge/Repositorio%20GitHub-gris?logo=github)](https://github.com/bladealex9848/ContadorPaginasPDF)
-        ![Visitantes](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fcontadorpaginaspdf.streamlit.app&label=Visitantes&labelColor=%235d5d5d&countColor=%231e7ebf&style=flat)
-        """)
+[![ver código fuente](https://img.shields.io/badge/Repositorio%20GitHub-gris?logo=github)](https://github.com/bladealex9848/ContadorPaginasPDF)
+![Visitantes](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fcontadorpaginaspdf.streamlit.app&label=Visitantes&labelColor=%235d5d5d&countColor=%231e7ebf&style=flat)
+""")
 
 st.markdown("""
 Esta aplicación te permite contar el número de páginas en archivos PDF, incluso si están protegidos o firmados electrónicamente.
@@ -130,7 +122,7 @@ if st.button("Procesar PDFs"):
         with tempfile.TemporaryDirectory() as tmpdirname:
             for uploaded_file in uploaded_files:
                 # Guardar el archivo en el directorio temporal
-                temp_file_path = os.path.join(tmpdirname, uploaded_file.name)
+                temp_file_path = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf", dir=tmpdirname).name
                 with open(temp_file_path, "wb") as f:
                     f.write(uploaded_file.getbuffer())
                 
@@ -146,14 +138,20 @@ if st.button("Procesar PDFs"):
             else:
                 st.error(f"📁 **{name}**: No se pudo determinar el número de páginas")
         
-        # Generar y ofrecer descarga del informe
-        report_path = "informe_conteo_paginas.txt"
-        with open(report_path, "w") as report:
-            for name, pages in results:
-                report.write(f"{name}: {'No determinado' if pages < 0 else pages} páginas\n")
+        # Generar informe en memoria
+        report_content = io.StringIO()
+        report_content.write("Informe de Conteo de Páginas\n")
+        report_content.write(f"Generado el: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+        for name, pages in results:
+            report_content.write(f"{name}: {'No determinado' if pages < 0 else pages} páginas\n")
         
-        st.markdown(get_binary_file_downloader_html(report_path, 'Informe'), unsafe_allow_html=True)
-        
+        # Crear botón de descarga
+        st.download_button(
+            label="Descargar Informe",
+            data=report_content.getvalue(),
+            file_name=f"informe_conteo_paginas_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt",
+            mime="text/plain"
+        )
     else:
         st.warning("Por favor, sube al menos un archivo PDF.")
 

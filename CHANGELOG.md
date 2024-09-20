@@ -5,6 +5,58 @@ Todos los cambios notables en el proyecto Contador de Páginas PDF Multimétodo 
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto se adhiere a [Versionado Semántico](https://semver.org/lang/es/).
 
+## [1.2.0] - 2024-09-20
+
+### Añadido
+- Generación de informes en memoria utilizando `io.StringIO()`.
+- Marca de tiempo única en el nombre de cada archivo de informe descargado.
+- Uso de `tempfile.NamedTemporaryFile` para manejar archivos PDF temporales con la extensión correcta.
+
+### Cambiado
+- Reemplazado el método personalizado de descarga por `st.download_button` de Streamlit.
+- Eliminados los estilos CSS personalizados para utilizar la apariencia predeterminada de Streamlit.
+- Mejorado el manejo de archivos temporales para aumentar la seguridad y eficiencia.
+
+### Eliminado
+- Función `get_binary_file_downloader_html` obsoleta.
+- Escritura de informes en archivos temporales en el servidor.
+
+### Seguridad
+- Mejorada la gestión de datos sensibles al procesar todo en memoria y no guardar nada en el servidor.
+
+### Justificación de los cambios
+
+1. Generación de informes en memoria:
+   - Mejora la seguridad al evitar escribir datos sensibles en el sistema de archivos del servidor.
+   - Reduce el riesgo de conflictos entre usuarios concurrentes.
+
+2. Marca de tiempo en nombres de archivo:
+   - Garantiza la unicidad de cada informe generado.
+   - Facilita la organización y seguimiento de informes para los usuarios.
+
+3. Uso de `tempfile.NamedTemporaryFile`:
+   - Mejora la compatibilidad con diferentes bibliotecas de procesamiento de PDF.
+   - Asegura la limpieza automática de archivos temporales.
+
+4. Cambio a `st.download_button`:
+   - Mejora la integración con Streamlit y su manejo nativo de descargas.
+   - Simplifica el código y mejora la mantenibilidad.
+
+5. Eliminación de estilos CSS personalizados:
+   - Mejora la consistencia visual con otras aplicaciones Streamlit.
+   - Facilita futuras actualizaciones y mantenimiento.
+
+### Impacto esperado
+- Mayor seguridad en el manejo de datos de los usuarios.
+- Mejor experiencia de usuario con una interfaz más consistente y responsiva.
+- Reducción de potenciales errores relacionados con la gestión de archivos temporales.
+- Mejora en la escalabilidad de la aplicación para múltiples usuarios concurrentes.
+
+### Próximos pasos
+- Implementar pruebas automatizadas para los nuevos flujos de procesamiento en memoria.
+- Explorar opciones para mejorar el rendimiento en el procesamiento de archivos PDF grandes.
+- Considerar la adición de más formatos de informe (por ejemplo, CSV, JSON) según las necesidades de los usuarios.
+
 ## [1.1.0] - 2024-09-20
 
 ### Añadido
